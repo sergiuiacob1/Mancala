@@ -41,7 +41,7 @@ def makeTransition(state: State, transition: Transition):
                     newTurn = 1
                     break
             elif stonesToMove == 0 and newStones1[i - 1] == 1:
-                # If, when placing the last stone, I place it on my board, I capture the stones from the opposite side
+                # If, when placing the last stone, I place it on my board on an empty space, I capture the stones from the opposite side
                 newMancalas[0] += newStones2[i - 1] + 1
                 newStones1[i - 1] = 0
                 newStones2[i - 1] = 0
@@ -77,11 +77,11 @@ def makeTransition(state: State, transition: Transition):
                     # so turn for the new state will be 2
                     newTurn = 2
                     break
-            elif stonesToMove == 0:
-                # If, when placing the last stone, I place it on my board, I capture the stones from the opposite side
-                newMancalas[1] += newStones1[i - 1] + 1
-                newStones2[i - 1] = 0
-                newStones1[i - 1] = 0
+            elif stonesToMove == 0 and newStones2[i + 1] == 1:
+                # If, when placing the last stone, I place it on my board on an empty space, I capture the stones from the opposite side
+                newMancalas[1] += newStones1[i + 1] + 1
+                newStones2[i + 1] = 0
+                newStones1[i + 1] = 0
 
             # put on player 1's board
             i = 0
