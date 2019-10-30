@@ -15,7 +15,7 @@ class State:
         self.mancalas = mancalas
         self.turn = turn
 
-    def __eq__(self, other, turn):
+    def __eq__(self, other):
         return self.stones == other.stones and self.mancalas == other.mancalas and self.turn == other.turn
 
     def isFinal(self):

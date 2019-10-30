@@ -1,28 +1,29 @@
 import math
 import random
 from state import State, evaluateState
-from transition import Transition, makeTransition
+from transition import Transition, makeTransition, isTransitionValid
 from game_config import numberOfHoles, turnAI, maxMiniMaxDepth
 
 
 def getBestAIDecision(currentState: State):
-    bestScore = minimax(currentState, maxMiniMaxDepth, True)
-    print(f'Best score: {bestScore}')
-    holes = [i for i in range(0, numberOfHoles)
-             if currentState.stones[turnAI - 1][i] > 0]
-    return random.choice(holes) + 1
+    scores = []
+    children, transitions = buildStateChildren(currentState)
+    for child in children:
+        scores.append(minimax(child, maxMiniMaxDepth, True))
+    maxScoreIndex = scores.index(max(scores))
+    return transitions[maxScoreIndex].hole + 1
 
 
 def buildStateChildren(currentState: State):
-    holes = [i for i in range(0, numberOfHoles)
-             if currentState.stones[turnAI - 1][i] > 0]
+    transitions = [Transition(i) for i in range(0, numberOfHoles)
+                   if isTransitionValid(currentState, Transition(i))]
     possibleStates = [makeTransition(
-        currentState, Transition(hole)) for hole in holes]
-    return possibleStates
+        currentState, transition) for transition in transitions]
+    return possibleStates, transitions
 
 
 def minimax(currentState: State, limit, maximixing):
-    children = buildStateChildren(currentState)
+    children, _ = buildStateChildren(currentState)
 
     if maximixing:
         value = -math.inf
@@ -40,5 +41,5 @@ def minimax(currentState: State, limit, maximixing):
                 childValue = evaluateState(currentState, child)
             else:
                 childValue = minimax(child, limit - 1, True)
-            value = min(value, childValue)        
+            value = min(value, childValue)
         return value
