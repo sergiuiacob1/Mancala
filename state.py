@@ -28,7 +28,7 @@ def getInitialState():
     stones1 = [initialNumberOfStones for _ in range(0, numberOfHoles)]
     stones2 = [initialNumberOfStones for _ in range(0, numberOfHoles)]
     mancalas = [0, 0]
-    return State([stones1, stones2], mancalas, 1)
+    return State([stones1, stones2], mancalas, turnHuman)
 
 
 def getFinalScores(state: State):
@@ -56,7 +56,7 @@ def displayState(state: State):
         print(stoneFormat.format(str(state.stones[0][i])), end='')
     print('{0: ^10}'.format(str(state.mancalas[0])), end='')
 
-    print('\n')
+    print('')
 
 
 def evaluateState(state: State):

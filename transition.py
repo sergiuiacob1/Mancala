@@ -95,3 +95,11 @@ def makeTransition(state: State, transition: Transition):
 
     newState = State([newStones1, newStones2], newMancalas, newTurn)
     return newState
+
+
+def isTransitionValid(state: State, transition: Transition):
+    if transition.hole < 0 or transition.hole >= numberOfHoles:
+        return False
+    if state.stones[state.turn - 1][transition.hole] == 0:
+        return False
+    return True
