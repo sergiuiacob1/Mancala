@@ -12,12 +12,12 @@ def getBestAIDecision(currentState: State):
         scores.append(minimax(child, maxMiniMaxDepth,
                               True, -math.inf, math.inf))
     maxScoreIndex = scores.index(max(scores))
-    return transitions[maxScoreIndex].hole + 1
+    return transitions[maxScoreIndex].hole
 
 
 def buildStateChildren(currentState: State):
-    transitions = [Transition(i) for i in range(0, numberOfHoles)
-                   if isTransitionValid(currentState, Transition(i))]
+    transitions = [Transition(i + 1) for i in range(0, numberOfHoles)
+                   if isTransitionValid(currentState, Transition(i + 1))]
     possibleStates = [makeTransition(
         currentState, transition) for transition in transitions]
     return possibleStates, transitions

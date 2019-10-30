@@ -3,6 +3,10 @@ from game_config import numberOfHoles
 
 
 class Transition:
+    """
+    `hole` represents the ith pocket from which we take stones
+    """
+
     def __init__(self, hole):
         self.hole = hole
 
@@ -98,8 +102,8 @@ def makeTransition(state: State, transition: Transition):
 
 
 def isTransitionValid(state: State, transition: Transition):
-    if transition.hole < 0 or transition.hole >= numberOfHoles:
+    if transition.hole < 1 or transition.hole > numberOfHoles:
         return False
-    if state.stones[state.turn - 1][transition.hole] == 0:
+    if state.stones[state.turn - 1][transition.hole - 1] == 0:
         return False
     return True
