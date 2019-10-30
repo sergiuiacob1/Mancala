@@ -1,2 +1,2 @@
-initialNumberOfHoles = 6
+numberOfHoles = 6
 initialNumberOfStones = 4

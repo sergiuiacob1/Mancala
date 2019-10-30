@@ -25,7 +25,36 @@ class State:
 
 
 def getInitialState():
-    stones1 = [initialNumberOfStones for _ in range(0, initialNumberOfHoles)]
-    stones2 = [initialNumberOfStones for _ in range(0, initialNumberOfHoles)]
+    stones1 = [initialNumberOfStones for _ in range(0, numberOfHoles)]
+    stones2 = [initialNumberOfStones for _ in range(0, numberOfHoles)]
     mancalas = [0, 0]
     return State([stones1, stones2], mancalas, 1)
+
+
+def getFinalScores(state: State):
+    return [state.mancalas[0] + sum(state.stones[0]), state.mancalas[1] + sum(state.stones[1])]
+
+
+def displayState(state: State):
+    """
+    Player 1 will be down, Player 2 will be up
+    """
+    mancalaFormat = '{:10s}'
+    stoneFormat = '{:5s}'
+
+    print(mancalaFormat.format(''), end='')
+    for i in range(0, len(state.stones[1])):
+        print(stoneFormat.format(str(state.stones[1][i])), end='')
+    print('{0: ^10}'.format(str(state.mancalas[1])))
+
+    print(mancalaFormat.format(str(state.mancalas[0])), end='')
+    for i in range(0, len(state.stones[0])):
+        print(stoneFormat.format(str(state.stones[0][i])), end='')
+    print('')
+
+
+def evaluateState(state: State):
+    """
+    Evaluates... what?
+    """
+    ...
