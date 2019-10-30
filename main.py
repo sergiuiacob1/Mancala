@@ -28,7 +28,7 @@ if __name__ == '__main__':
         currentState = makeTransition(currentState, transition)
         print('')
 
-    print ('Final state:')
+    print('Final state:')
     displayState(currentState)
     scores = getFinalScores(currentState)
     print(f'Game over. Scores: {scores}')

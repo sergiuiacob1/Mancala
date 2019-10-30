@@ -10,7 +10,7 @@ class State:
     `State.turn` signifies whose player's turn it is
     """
 
-    def __init__(self, stones, mancalas, turn): 
+    def __init__(self, stones, mancalas, turn):
         self.stones = stones
         self.mancalas = mancalas
         self.turn = turn
@@ -62,23 +62,33 @@ def displayState(state: State):
 
 def evaluateState(state: State, newState: State):
     """
-    Evaluates... what?
+    Evaluates the score that `newState` brings for the AI
     """
     if newState.isFinal():
-        scores =  getFinalScores(newState)
+        scores = getFinalScores(newState)
         if scores[1] > scores[0]:
             return math.inf
         elif scores[1] < scores[0]:
             return -math.inf
-    elif newState.mancalas[1] > 1 and newState.turn == turnAI:
-        return newState.mancalas[1] - state.mancalas[1]
-    elif newState.mancalas[1] == 1 and newState.turn == turnAI:
-        return 2
-    elif newState.mancalas[1] == 1 or newState.turn == turnAI:
-        return 1
+
+    if state.turn == turnAI:
+        score = newState.mancalas[1] - state.mancalas[1]
+        if state.turn == newState.turn:
+            score *= 2
+        return score
     else:
-        return 0
-    
+        score = state.mancalas[0] - newState.mancalas[0]
+        if state.turn == newState.turn:
+            score *= 2
+        return score
+    # elif newState.mancalas[1] > 1 and newState.turn == turnAI:
+    #     return newState.mancalas[1] - state.mancalas[1]
+    # elif newState.mancalas[1] == 1 and newState.turn == turnAI:
+    #     return 2
+    # elif newState.mancalas[1] == 1 or newState.turn == turnAI:
+    #     return 1
+    # else:
+    #     return 0
 
 
 if __name__ == '__main__':
