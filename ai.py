@@ -9,7 +9,8 @@ def getBestAIDecision(currentState: State):
     scores = []
     children, transitions = buildStateChildren(currentState)
     for child in children:
-        scores.append(minimax(child, maxMiniMaxDepth, True))
+        scores.append(minimax(child, maxMiniMaxDepth,
+                              True, -math.inf, math.inf))
     maxScoreIndex = scores.index(max(scores))
     return transitions[maxScoreIndex].hole + 1
 
@@ -22,7 +23,7 @@ def buildStateChildren(currentState: State):
     return possibleStates, transitions
 
 
-def minimax(currentState: State, limit, maximixing):
+def minimax(currentState: State, limit, maximixing, alpha, beta):
     children, _ = buildStateChildren(currentState)
 
     if maximixing:
@@ -31,8 +32,11 @@ def minimax(currentState: State, limit, maximixing):
             if limit == 1:
                 childValue = evaluateState(currentState, child)
             else:
-                childValue = minimax(child, limit - 1, False)
+                childValue = minimax(child, limit - 1, False, alpha, beta)
             value = max(value, childValue)
+            alpha = max(alpha, value)
+            if beta <= alpha:
+                break
         return value
     else:
         value = math.inf
@@ -40,6 +44,9 @@ def minimax(currentState: State, limit, maximixing):
             if limit == 1:
                 childValue = evaluateState(currentState, child)
             else:
-                childValue = minimax(child, limit - 1, True)
+                childValue = minimax(child, limit - 1, True, alpha, beta)
             value = min(value, childValue)
+            beta = min(beta, value)
+            if beta <= alpha:
+                break
         return value
