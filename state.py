@@ -1,3 +1,4 @@
+import math
 from game_config import *
 
 
@@ -9,7 +10,7 @@ class State:
     `State.turn` signifies whose player's turn it is
     """
 
-    def __init__(self, stones, mancalas, turn):
+    def __init__(self, stones, mancalas, turn): 
         self.stones = stones
         self.mancalas = mancalas
         self.turn = turn
@@ -42,7 +43,7 @@ def displayState(state: State):
     mancalaFormat = '{:10s}'
     stoneFormat = '{:5s}'
 
-    # print(f"Player's {state.turn} turn\n")
+    print(f"Player's {state.turn} turn\n")
 
     print('Player 2' + ('*: ' if state.turn == 2 else ' : '), end='')
     print(mancalaFormat.format(str(state.mancalas[1])), end='')
@@ -56,14 +57,28 @@ def displayState(state: State):
         print(stoneFormat.format(str(state.stones[0][i])), end='')
     print('{0: ^10}'.format(str(state.mancalas[0])), end='')
 
-    print('')
+    print('\n')
 
 
-def evaluateState(state: State):
+def evaluateState(state: State, newState: State):
     """
     Evaluates... what?
     """
-    ...
+    if newState.isFinal():
+        scores =  getFinalScores(newState)
+        if scores[1] > scores[0]:
+            return math.inf
+        elif scores[1] < scores[0]:
+            return -math.inf
+    elif newState.mancalas[1] > 1 and newState.turn == turnAI:
+        return newState.mancalas[1] - state.mancalas[1]
+    elif newState.mancalas[1] == 1 and newState.turn == turnAI:
+        return 2
+    elif newState.mancalas[1] == 1 or newState.turn == turnAI:
+        return 1
+    else:
+        return 0
+    
 
 
 if __name__ == '__main__':
