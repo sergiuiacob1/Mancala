@@ -2,7 +2,7 @@ from state import State
 from game_config import numberOfHoles
 
 
-def Transition:
+class Transition:
     def __init__(self, hole):
         self.hole = hole
 
@@ -15,12 +15,12 @@ def makeTransition(state: State, transition: Transition):
     newStones1 = list(state.stones[0])
     newStones2 = list(state.stones[1])
     newMancalas = list(state.mancalas)
-    stonesToMove = state.stones[state.turn - 1]
+    stonesToMove = state.stones[state.turn - 1][transition.hole - 1]
     newTurn = state.turn % 2 + 1
 
     if state.turn == 1:
         # Player 1 is moving
-        newStones1[transition.hole] = 0
+        newStones1[transition.hole - 1] = 0
 
         # Initially, I start from transition.hole on my board
         i = transition.hole
@@ -40,9 +40,10 @@ def makeTransition(state: State, transition: Transition):
                     # so turn for the new state will be 1
                     newTurn = 1
                     break
-            elif stonesToMove == 0:
+            elif stonesToMove == 0 and newStones1[i - 1] == 1:
                 # If, when placing the last stone, I place it on my board, I capture the stones from the opposite side
-                newStones1[i - 1] += newStones2[i - 1]
+                newMancalas[0] += newStones2[i - 1] + 1
+                newStones1[i - 1] = 0
                 newStones2[i - 1] = 0
 
             # put on player 2's board
@@ -56,10 +57,10 @@ def makeTransition(state: State, transition: Transition):
             i = 0
     else:
         # Player 2 is moving
-        newStones2[transition.hole] = 0
+        newStones2[transition.hole - 1] = 0
 
         # Initially, I start from transition.hole on my board
-        i = transition.hole
+        i = transition.hole - 1
         while stonesToMove > 0:
             # Put on player 2's board
             while i >= 0 and stonesToMove > 0:
@@ -78,7 +79,8 @@ def makeTransition(state: State, transition: Transition):
                     break
             elif stonesToMove == 0:
                 # If, when placing the last stone, I place it on my board, I capture the stones from the opposite side
-                newStones2[i - 1] += newStones1[i - 1]
+                newMancalas[1] += newStones1[i - 1] + 1
+                newStones2[i - 1] = 0
                 newStones1[i - 1] = 0
 
             # put on player 1's board
@@ -92,3 +94,4 @@ def makeTransition(state: State, transition: Transition):
             i = numberOfHoles - 1
 
     newState = State([newStones1, newStones2], newMancalas, newTurn)
+    return newState
