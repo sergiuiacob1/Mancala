@@ -4,9 +4,9 @@ from game_config import numberOfHoles
 
 
 def decisionIsIncorrect(state: State, hole):
-    if state.turn == 1 and state.stones[0][hole] == 0:
+    if state.turn == 1 and state.stones[0][hole - 1] == 0:
         return True
-    if state.turn == 2 and state.stones[1][hole] == 0:
+    if state.turn == 2 and state.stones[1][hole - 1] == 0:
         return True
     if hole <= 0 or hole > numberOfHoles:
         return True

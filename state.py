@@ -42,15 +42,15 @@ def displayState(state: State):
     mancalaFormat = '{:10s}'
     stoneFormat = '{:5s}'
 
-    print(f"Player's {state.turn} turn\n")
+    # print(f"Player's {state.turn} turn\n")
 
-    print('Player 2: ', end='')
+    print('Player 2' + ('*: ' if state.turn == 2 else ' : '), end='')
     print(mancalaFormat.format(str(state.mancalas[1])), end='')
     for i in range(0, len(state.stones[1])):
         print(stoneFormat.format(str(state.stones[1][i])), end='')
     print('')
 
-    print('Player 1: ', end='')
+    print('Player 1' + ('*: ' if state.turn == 1 else ' : '), end='')
     print('{0: ^10}'.format(''), end='')
     for i in range(0, len(state.stones[0])):
         print(stoneFormat.format(str(state.stones[0][i])), end='')

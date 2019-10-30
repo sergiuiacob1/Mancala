@@ -60,7 +60,7 @@ def makeTransition(state: State, transition: Transition):
         newStones2[transition.hole - 1] = 0
 
         # Initially, I start from transition.hole on my board
-        i = transition.hole - 1
+        i = transition.hole - 2
         while stonesToMove > 0:
             # Put on player 2's board
             while i >= 0 and stonesToMove > 0:
